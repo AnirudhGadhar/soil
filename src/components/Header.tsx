@@ -5,13 +5,14 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { NavLink } from "@/components/NavLink";
 
 const Header = () => {
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Features", href: "#features" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", to: "/" },
+    { name: "About", to: "/about" },
+    { name: "Features", to: "/features" },
+    { name: "Contact", to: "/contact" },
   ];
 
   return (
@@ -28,13 +29,14 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <NavLink
               key={link.name}
-              href={link.href}
+              to={link.to}
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              activeClassName="text-primary"
             >
               {link.name}
-            </a>
+            </NavLink>
           ))}
         </nav>
 
@@ -48,13 +50,14 @@ const Header = () => {
           <SheetContent>
             <nav className="flex flex-col gap-4 mt-8">
               {navLinks.map((link) => (
-                <a
+                <NavLink
                   key={link.name}
-                  href={link.href}
+                  to={link.to}
                   className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                  activeClassName="text-primary"
                 >
                   {link.name}
-                </a>
+                </NavLink>
               ))}
             </nav>
           </SheetContent>
