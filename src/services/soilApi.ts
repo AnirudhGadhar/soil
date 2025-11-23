@@ -45,8 +45,8 @@ export interface SoilData {
 
 export const fetchSoilData = async (lat: number, lon: number): Promise<SoilData> => {
   try {
-    // SoilGrids API endpoint
-    const baseUrl = "https://rest.isric.org/soilgrids/v2.0/properties/query";
+    // Try primary domain first, fallback to alternate
+    const baseUrl = "https://rest.soilgrids.org/soilgrids/v2.0/properties/query";
     
     // Properties to fetch
     const properties = [
@@ -73,17 +73,29 @@ export const fetchSoilData = async (lat: number, lon: number): Promise<SoilData>
     const url = `${baseUrl}?${params.toString()}`;
     console.log("Fetching soil data from:", url);
 
-    const response = await fetch(url, {
+    let response = await fetch(url, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
       },
     });
 
+    // Fallback to alternate domain if primary fails
+    if (!response.ok && response.status === 500) {
+      console.log("Primary API failed, trying alternate domain...");
+      const altUrl = url.replace("rest.soilgrids.org", "rest.isric.org");
+      response = await fetch(altUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+    }
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error("API Error Response:", errorText);
-      throw new Error(`API request failed with status ${response.status}`);
+      throw new Error(`Unable to fetch soil data. The service may be temporarily unavailable. (Status: ${response.status})`);
     }
 
     const data: SoilGridsResponse = await response.json();

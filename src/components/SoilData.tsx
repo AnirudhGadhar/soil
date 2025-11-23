@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Leaf, Droplets, Mountain, Activity } from "lucide-react";
+import ExportSoilData from "./ExportSoilData";
+import SoilTextureTriangle from "./SoilTextureTriangle";
 
 interface SoilDataProps {
   data: {
@@ -68,7 +70,8 @@ const SoilData = ({ data, locationName }: SoilDataProps) => {
     <div className="max-w-6xl mx-auto p-6 space-y-6 animate-slide-up">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-foreground mb-2">Soil Analysis Results</h2>
-        <p className="text-muted-foreground">{locationName}</p>
+        <p className="text-muted-foreground mb-3">{locationName}</p>
+        <ExportSoilData data={data} locationName={locationName} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -168,6 +171,9 @@ const SoilData = ({ data, locationName }: SoilDataProps) => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Soil Texture Triangle Classification */}
+        <SoilTextureTriangle clay={data.clay} sand={data.sand} silt={data.silt} />
       </div>
 
       {/* Suitable Plants Card */}
