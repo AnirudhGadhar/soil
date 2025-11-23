@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const locationSchema = z.string().trim().min(2, "Location must be at least 2 characters").max(200, "Location must be less than 200 characters");
 
 interface LocationSearchProps {
   onLocationSubmit: (lat: number, lon: number, locationName: string) => void;
@@ -14,10 +17,12 @@ const LocationSearch = ({ onLocationSubmit, isLoading }: LocationSearchProps) =>
   const { toast } = useToast();
 
   const searchLocation = async () => {
-    if (!location.trim()) {
+    // Validate input
+    const validation = locationSchema.safeParse(location);
+    if (!validation.success) {
       toast({
-        title: "Location required",
-        description: "Please enter a location to search",
+        title: "Invalid location",
+        description: validation.error.errors[0].message,
         variant: "destructive",
       });
       return;
