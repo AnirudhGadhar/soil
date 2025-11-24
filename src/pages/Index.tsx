@@ -13,12 +13,14 @@ const Index = () => {
   const [soilData, setSoilData] = useState<SoilDataType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [locationName, setLocationName] = useState("");
+  const [coordinates, setCoordinates] = useState<{ lat: number; lon: number } | null>(null);
   const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([]);
   const { toast } = useToast();
 
   const handleLocationSubmit = async (lat: number, lon: number, name: string) => {
     setIsLoading(true);
     setLocationName(name);
+    setCoordinates({ lat, lon });
     setSoilData(null); // Clear previous data
 
     try {
@@ -72,8 +74,13 @@ const Index = () => {
             </div>
           )}
           
-          {soilData && !isLoading && (
-            <SoilData data={soilData} locationName={locationName} />
+          {soilData && !isLoading && coordinates && (
+            <SoilData 
+              data={soilData} 
+              locationName={locationName} 
+              lat={coordinates.lat}
+              lon={coordinates.lon}
+            />
           )}
           
           {!soilData && !isLoading && (

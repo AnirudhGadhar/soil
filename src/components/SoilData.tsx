@@ -5,6 +5,7 @@ import ExportSoilData from "./ExportSoilData";
 import SoilTextureTriangle from "./SoilTextureTriangle";
 import SoilComparisonChart from "./SoilComparisonChart";
 import GeneratePDFReport from "./GeneratePDFReport";
+import WeatherCalendar from "./WeatherCalendar";
 
 interface SoilDataProps {
   data: {
@@ -16,9 +17,11 @@ interface SoilDataProps {
     silt: number;
   };
   locationName: string;
+  lat?: number;
+  lon?: number;
 }
 
-const SoilData = ({ data, locationName }: SoilDataProps) => {
+const SoilData = ({ data, locationName, lat, lon }: SoilDataProps) => {
   const getPhCategory = (ph: number) => {
     if (ph < 5.5) return { label: "Acidic", color: "text-orange-600" };
     if (ph < 6.5) return { label: "Slightly Acidic", color: "text-yellow-600" };
@@ -206,6 +209,16 @@ const SoilData = ({ data, locationName }: SoilDataProps) => {
 
       {/* Comparative Soil Analysis */}
       <SoilComparisonChart actualData={data} primaryCrop={plants[0]} />
+
+      {/* Weather Calendar */}
+      {lat !== undefined && lon !== undefined && (
+        <WeatherCalendar 
+          lat={lat} 
+          lon={lon} 
+          locationName={locationName} 
+          primaryCrop={plants[0]} 
+        />
+      )}
 
       {/* Suitable Plants Card */}
       <Card className="shadow-strong">
