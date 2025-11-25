@@ -18,7 +18,7 @@ const About = () => {
             into clear, actionable insights for farmers, gardeners, students, and researchers.
           </p>
           <p className="text-muted-foreground mb-4">
-            We use freely available scientific datasets to estimate soil properties such as pH, organic
+            We use freely available scientific data to estimate soil properties such as pH, organic
             carbon, nitrogen, and texture (sand, silt, clay) for almost any point on earth. On top of
             that, we provide simple crop and plant recommendations so you can quickly understand what is
             likely to grow well in your soil conditions.
