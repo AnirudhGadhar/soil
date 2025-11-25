@@ -108,7 +108,7 @@ const LocationSearch = ({ onLocationSubmit, isLoading }: LocationSearchProps) =>
         <div className="flex gap-3 mb-4">
           <Input
             type="text"
-            placeholder="e.g., London, UK or 51.5074, -0.1278"
+            placeholder="e.g. Banglore "
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && searchLocation()}
